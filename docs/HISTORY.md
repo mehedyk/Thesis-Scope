@@ -1,0 +1,10 @@
+# History: what we built and figured out
+
+1. **Goal:** a free, offline-friendly alternative to Turnitin-style checks for a friend's 20,000+ word thesis (CPU-only machine at first).
+2. **Reality check:** Turnitin's strength is its private database; open tools can only approximate plagiarism checks. AI detectors are unreliable everywhere, especially on formal/technical writing and non-native English.
+3. **Hosting research:** Hugging Face Spaces' free CPU hardware is 2 vCPU / 16 GB, but current docs say compute-backed Gradio/Docker Spaces need a paid plan (Static Spaces free; ZeroGPU Gradio Spaces free for personal accounts). Chosen path: **Kaggle/Colab notebook with a free GPU**, a permanent host later.
+4. **v1 built** (`app/app_v1.py`): block splitting, Binoculars (Qwen2.5 pair) + RoBERTa classifier, local n-gram overlap, web search (DuckDuckGo + Semantic Scholar), cache, Gradio UI. **Verified in a real Colab run** on a 7,043-word term paper (34 blocks).
+5. **Reading the real result:** 19% “flagged” was built into the method (relative threshold flags ~1 in 6 blocks of any paper); RoBERTa scored ~0% almost everywhere; the lowest Binoculars scores fell on formulaic sections (hypotheses, methods, results). Plagiarism found only one harmless match, yet section 3.1 looked like copied World Bank definitions that the checker missed. A manual read found repeated sentences, a missing number (“a -country study”), a leftover “please confirm” placeholder and duplicate section numbers.
+6. **Research round:** better open detectors (Open Pangram EditLens, Greyscope, MELD), exact-phrase sources (infini-gram), academic search (OpenAlex now needs a free key), reference verification (Crossref). See `RESEARCH.md`.
+7. **v2 built** (`app/app.py`): EditLens + Binoculars, calibration via a known-human sample, infini-gram + web + local plagiarism, Crossref reference check, writing-issue checks, explainable collapsible UI, recommended defaults. **Only the report layout, writing checks and file handling were tested in a sandbox; models and online lookups still need a first real run.**
+8. **This package:** animated README/logo/icons, docs, roadmap.
