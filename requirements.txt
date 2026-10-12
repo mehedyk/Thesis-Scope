@@ -1,0 +1,9 @@
+gradio
+torch
+transformers
+accelerate
+python-docx
+pypdf
+rapidfuzz
+ddgs
+requests
